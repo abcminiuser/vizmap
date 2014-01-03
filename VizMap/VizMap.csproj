@@ -113,10 +113,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VisualMap.xaml.cs">
+    <Compile Include="src\VisualMap.xaml.cs">
       <DependentUpon>VisualMap.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VisualMapToolWindow.cs" />
+    <Compile Include="src\VisualMapToolWindow.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -124,8 +124,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="VisualAddressCanvas.cs" />
-    <Compile Include="VizMapPackage.cs" />
+    <Compile Include="src\VisualAddressCanvas.cs" />
+    <Compile Include="src\VizMapPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
   </ItemGroup>
@@ -161,7 +161,7 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="VisualMap.xaml">
+    <Page Include="src\VisualMap.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -27,18 +27,12 @@ namespace FourWalledCubicle.VizMap
             testSym1.Size = 50;
             vacVisualMapView.Symbols.Add(testSym1);
 
-            svMapScroller.KeyDown += new KeyEventHandler(vacVisualMapView_KeyDown);
-            svMapScroller.KeyUp += new KeyEventHandler(vacVisualMapView_KeyUp);
-            svMapScroller.PreviewMouseWheel += new MouseWheelEventHandler(vacVisualMapView_MouseWheel);
+            svMapScroller.KeyDown += vacVisualMapView_KeyChange;
+            svMapScroller.KeyUp += vacVisualMapView_KeyChange;
+            svMapScroller.PreviewMouseWheel += vacVisualMapView_MouseWheel;
         }
 
-        void vacVisualMapView_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.LeftCtrl)
-                _isZooming = e.IsDown;
-        }
-
-        void vacVisualMapView_KeyDown(object sender, KeyEventArgs e)
+        void vacVisualMapView_KeyChange(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.LeftCtrl)
                 _isZooming = e.IsDown;

@@ -28,10 +28,7 @@ namespace FourWalledCubicle.VizMap
 
             set
             {
-                if (value < 1)
-                    value = 1;
-
-                _zoom = value;
+                _zoom = Math.Max(value, 1);
                 this.InvalidateMeasure();
             }
         }
@@ -77,18 +74,18 @@ namespace FourWalledCubicle.VizMap
 
         protected override void OnRender(DrawingContext dc)
         {
-            if (this.ActualWidth < _startAddressText.Width)
-                return;
-
-            if (this.ActualHeight < 0)
-                return;
-
             dc.DrawText(_startAddressText, new Point(0, 0));
             dc.DrawText(_endAddressText, new Point(0, this.ActualHeight - _endAddressText.Height));
 
             Rect mapBounds = new Rect(_startAddressText.Width, 0, this.ActualWidth - _startAddressText.Width, this.ActualHeight);
             mapBounds.Inflate(-5, -_startAddressText.Height / 2);
             dc.DrawRectangle(Brushes.White, _borderPen, mapBounds);
+
+            foreach (SymbolInfo symbol in Symbols)
+            {
+                long startBlock = symbol.Address / 64;
+                long endBlock = (symbol.Address + symbol.Size) / 64;
+            }
         }
     }
 }
