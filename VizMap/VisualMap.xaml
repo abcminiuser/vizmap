@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="FourWalledCubicle.VizMap.VisualMap"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.10.0"
+             mc:Ignorable="d" 
+             d:DesignHeight="428" d:DesignWidth="309"
+             Name="MyToolWindow"
+             Background="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowBackgroundKey}}" xmlns:my="clr-namespace:FourWalledCubicle.VizMap">
+
+    <DockPanel>
+        <ScrollViewer Name="svMapScroller">
+            <my:VisualAddressCanvas x:Name="vacVisualMapView" Margin="5" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>
