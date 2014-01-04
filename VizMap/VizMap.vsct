@@ -8,7 +8,7 @@
   <Commands package="guidVizMapPkg">
     <Buttons>
       <Button guid="guidVizMapCmdSet" id="cmdidVizMap" priority="0x0100" type="Button">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_VIEW_DEV_WINDOWS"/>
         <Icon guid="guidImages" id="bmpPic2" />
         <Strings>
           <CommandName>cmdidVizMap</CommandName>
