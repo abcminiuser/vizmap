@@ -23,8 +23,8 @@ namespace FourWalledCubicle.VizMap
             InitializeComponent();
 
             VisualAddressCanvas.SymbolInfo testSym1 = new VisualAddressCanvas.SymbolInfo();
-            testSym1.Address = 0x1234;
-            testSym1.Size = 50;
+            testSym1.StartAddress = 0x1;
+            testSym1.Size = 1024;
             vacVisualMapView.Symbols.Add(testSym1);
 
             svMapScroller.KeyDown += vacVisualMapView_KeyChange;

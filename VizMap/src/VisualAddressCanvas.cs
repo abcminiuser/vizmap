@@ -13,8 +13,17 @@ namespace FourWalledCubicle.VizMap
     {
         public struct SymbolInfo
         {
-            public long Address { get; set; }
+            public long StartAddress { get; set; }
+
             public int Size { get; set; }
+
+            public long EndAddress
+            {
+                get
+                {
+                    return StartAddress + Size;
+                }
+            }
         }
 
         public List<SymbolInfo> Symbols { get; private set; }
@@ -28,7 +37,9 @@ namespace FourWalledCubicle.VizMap
 
             set
             {
-                _zoom = Math.Max(value, 1);
+                value = Math.Max(value, 1);
+                
+                _zoom = value;
                 this.InvalidateMeasure();
             }
         }
@@ -41,11 +52,13 @@ namespace FourWalledCubicle.VizMap
         private long _startAddress = 0x0000000;
         private long _endAddress = 0x0007000;
 
+        private const int BYTES_PER_LINE = 64;
+
         protected override Size MeasureOverride(Size availableSize)
         {
             return new Size(
                 availableSize.Width > 0 ? availableSize.Width : 100,
-                (_endAddress - _startAddress) / Zoom);
+                (_endAddress - _startAddress) * 10 / Zoom);
         }
 
         public VisualAddressCanvas()
@@ -77,15 +90,49 @@ namespace FourWalledCubicle.VizMap
             dc.DrawText(_startAddressText, new Point(0, 0));
             dc.DrawText(_endAddressText, new Point(0, this.ActualHeight - _endAddressText.Height));
 
-            Rect mapBounds = new Rect(_startAddressText.Width, 0, this.ActualWidth - _startAddressText.Width, this.ActualHeight);
+            Rect mapBounds = new Rect(
+                _startAddressText.Width,
+                0,
+                this.ActualWidth - _startAddressText.Width,
+                this.ActualHeight);
             mapBounds.Inflate(-5, -_startAddressText.Height / 2);
+
             dc.DrawRectangle(Brushes.White, _borderPen, mapBounds);
 
+            Rect blockBounds = new Rect(
+                mapBounds.Left,
+                mapBounds.Top,
+                mapBounds.Width / BYTES_PER_LINE,
+                mapBounds.Height / ((_endAddress - _startAddress) / BYTES_PER_LINE));
             foreach (SymbolInfo symbol in Symbols)
             {
-                long startBlock = symbol.Address / 64;
-                long endBlock = (symbol.Address + symbol.Size) / 64;
+
+                long currLine = symbol.StartAddress / BYTES_PER_LINE;
+                long currLinePos = symbol.StartAddress % BYTES_PER_LINE;
+                long currSizeRem = symbol.Size;
+
+                while (currSizeRem > 0)
+                {
+                    long currLength = Math.Min(currSizeRem, BYTES_PER_LINE - currLinePos);
+
+                    DrawBlock(dc, blockBounds, currLine, currLinePos, currLength);
+
+                    currLine++;
+                    currLinePos = 0;
+                    currSizeRem -= currLength;
+                }
             }
         }
+
+        private void DrawBlock(DrawingContext dc, Rect blockBounds, long line, long start, long width)
+        {
+            Rect currBlockBounds = new Rect(
+                blockBounds.Left + (blockBounds.Width * start),
+                blockBounds.Top + (blockBounds.Height * line),
+                blockBounds.Width * width,
+                blockBounds.Height);
+
+            dc.DrawRectangle(Brushes.PaleGreen, null, currBlockBounds);            
+        }    
     }
 }
