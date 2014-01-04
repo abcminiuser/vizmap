@@ -11,21 +11,6 @@ namespace FourWalledCubicle.VizMap
 {
     class VisualAddressCanvas : Canvas
     {
-        public struct SymbolInfo
-        {
-            public long StartAddress { get; set; }
-
-            public int Size { get; set; }
-
-            public long EndAddress
-            {
-                get
-                {
-                    return StartAddress + Size;
-                }
-            }
-        }
-
         public List<SymbolInfo> Symbols { get; private set; }
 
         public double Zoom
@@ -95,9 +80,10 @@ namespace FourWalledCubicle.VizMap
                 0,
                 this.ActualWidth - _startAddressText.Width,
                 this.ActualHeight);
-            mapBounds.Inflate(-5, -_startAddressText.Height / 2);
 
+            mapBounds.Inflate(-5, -_startAddressText.Height / 2);
             dc.DrawRectangle(Brushes.White, _borderPen, mapBounds);
+            mapBounds.Inflate(-_borderPen.Thickness, -_borderPen.Thickness);
 
             Rect blockBounds = new Rect(
                 mapBounds.Left,
@@ -106,7 +92,6 @@ namespace FourWalledCubicle.VizMap
                 mapBounds.Height / ((_endAddress - _startAddress) / BYTES_PER_LINE));
             foreach (SymbolInfo symbol in Symbols)
             {
-
                 long currLine = symbol.StartAddress / BYTES_PER_LINE;
                 long currLinePos = symbol.StartAddress % BYTES_PER_LINE;
                 long currSizeRem = symbol.Size;

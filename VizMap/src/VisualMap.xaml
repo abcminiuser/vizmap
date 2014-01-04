@@ -10,6 +10,22 @@
              Background="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowBackgroundKey}}" xmlns:my="clr-namespace:FourWalledCubicle.VizMap">
 
     <DockPanel>
+        <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarGradientKey}}">
+            <ToolBarPanel.Resources>
+                <Style TargetType="Separator" BasedOn="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}">
+                    <Setter Property="Margin" Value="5,0,5,0"/>
+                </Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}"/>
+                <Style TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"/>
+                <Style TargetType="CheckBox">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </ToolBarPanel.Resources>
+
+            <Label Margin="5,0,0,0" VerticalAlignment="Center">Show symbols from:</Label>
+            <ComboBox Grid.Column="1" Name="cmbProjectList" Margin="2" MinWidth="300"/>
+        </ToolBarPanel>
+
         <ScrollViewer Name="svMapScroller">
             <my:VisualAddressCanvas x:Name="vacVisualMapView" Margin="5" Height="Auto" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </ScrollViewer>
