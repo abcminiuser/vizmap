@@ -142,6 +142,17 @@ namespace FourWalledCubicle.VizMap
         {
             if (e.Key == Key.LeftCtrl)
                 _isZooming = e.IsDown;
+
+            if (e.Key == Key.OemPlus)
+            {
+                if (_isZooming)
+                    vacVisualMapView.Zoom -= 10;
+            }
+            else if (e.Key == Key.OemMinus)
+            {
+                if (_isZooming)
+                    vacVisualMapView.Zoom += 10;
+            }
         }
 
         void vacVisualMapView_MouseWheel(object sender, MouseWheelEventArgs e)
