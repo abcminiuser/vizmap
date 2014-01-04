@@ -14,9 +14,9 @@ namespace FourWalledCubicle.VizMap
 
         private static readonly Regex _symbolParserRegex = new Regex(
                 @"^" + //                   Start of line
-                @"(?<Size>[^\s]*)" + //     Match/capture symbol size
-                @"\s*" + //                 Whitespace seperator
                 @"(?<Address>[^\s]*)" + //  Match/capture symbol address
+                @"\s*" + //                 Whitespace seperator
+                @"(?<Size>[^\s]*)" + //     Match/capture symbol size
                 @"\s*" + //                 Whitespace seperator
                 @"(?<Storage>[^\s])" + //   Match/capture symbol storage
                 @"\s*" + //                 Whitespace seperator
@@ -66,6 +66,9 @@ namespace FourWalledCubicle.VizMap
                 Match itemData = _symbolParserRegex.Match(s);
 
                 if (!itemData.Groups["Name"].Success || !itemData.Groups["Size"].Success || !itemData.Groups["Address"].Success)
+                    continue;
+
+                if (!"tTwW".Contains((char)itemData.Groups["Storage"].Value[0]))
                     continue;
 
                 _symbolSizes.Add(new SymbolInfo()
