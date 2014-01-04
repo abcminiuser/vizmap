@@ -22,7 +22,6 @@ namespace FourWalledCubicle.VizMap
 
         private SymbolParser _symbolParser;
 
-
         public VisualMap()
         {
             InitializeComponent();

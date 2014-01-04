@@ -6,12 +6,13 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Globalization;
 
 namespace FourWalledCubicle.VizMap
 {
     class VisualAddressCanvas : Canvas
     {
-        public List<SymbolInfo> Symbols { get; private set; }
+        public List<SymbolInfo> Symbols { get; set; }
 
         public double Zoom
         {
@@ -57,15 +58,15 @@ namespace FourWalledCubicle.VizMap
         {
             _startAddressText = new FormattedText(
                 string.Format("0x{0:x8}", _startAddress),
-                System.Globalization.CultureInfo.CurrentCulture,
-                System.Windows.FlowDirection.LeftToRight,
+                CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
                 new Typeface(new FontFamily("Consolas"),
                 FontStyles.Normal, FontWeights.Normal, new FontStretch()), 12, Brushes.Black);
 
             _endAddressText = new FormattedText(
                 string.Format("0x{0:x8}", _endAddress),
-                System.Globalization.CultureInfo.CurrentCulture,
-                System.Windows.FlowDirection.LeftToRight,
+                CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
                 new Typeface(new FontFamily("Consolas"),
                 FontStyles.Normal, FontWeights.Normal, new FontStretch()), 12, Brushes.Black);
         }
@@ -100,7 +101,7 @@ namespace FourWalledCubicle.VizMap
                 {
                     long currLength = Math.Min(currSizeRem, BYTES_PER_LINE - currLinePos);
 
-                    DrawBlock(dc, blockBounds, currLine, currLinePos, currLength);
+                    DrawBlock(dc, blockBounds, currLine, currLinePos, currLength, symbol.Name, Brushes.LightGray);
 
                     currLine++;
                     currLinePos = 0;
@@ -109,7 +110,7 @@ namespace FourWalledCubicle.VizMap
             }
         }
 
-        private void DrawBlock(DrawingContext dc, Rect blockBounds, long line, long start, long width)
+        private void DrawBlock(DrawingContext dc, Rect blockBounds, long line, long start, long width, string name, Brush fill)
         {
             Rect currBlockBounds = new Rect(
                 blockBounds.Left + (blockBounds.Width * start),
@@ -117,7 +118,19 @@ namespace FourWalledCubicle.VizMap
                 blockBounds.Width * width,
                 blockBounds.Height);
 
-            dc.DrawRectangle(Brushes.PaleGreen, null, currBlockBounds);            
-        }    
+            dc.DrawRectangle(fill, _borderPen, currBlockBounds);
+
+            FormattedText symbolNameText =
+                new FormattedText(
+                name,
+                CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                new Typeface(new FontFamily("Consolas"),
+                FontStyles.Normal, FontWeights.Normal, new FontStretch()), currBlockBounds.Height, Brushes.Black);
+
+            symbolNameText.MaxTextWidth = currBlockBounds.Width;
+            symbolNameText.Trimming = TextTrimming.CharacterEllipsis;
+            dc.DrawText(symbolNameText, currBlockBounds.TopLeft);        
+        }
     }
 }
